@@ -51,16 +51,20 @@ constexpr GLint NUMBER_OF_TEXTURES = 1, // to be generated, that is
 constexpr char MOANA_SPRITE_FILEPATH[]    = "moana.png",
                KAKAMORA_SPRITE_FILEPATH[]    = "coco.png",
                MAUI_SPRITE_FILEPATH[]    = "maui.png",
+               BACKGROUND_SPRITE_FILEPATH[]    = "background.png",
                BOAT_SPRITE_FILEPATH[]    = "boat.png";
             
 
 constexpr glm::vec3 INIT_SCALE       = glm::vec3(2.0f, 1.98f, 0.0f),
                     BOAT_SCALE       = glm::vec3(3.0f, 2.98f, 0.0f),
                     MOANA_SCALE       = glm::vec3(1.5f, 0.98f, 0.0f),
+                    BACKGROUND_SCALE       = glm::vec3(10.5f, 8.98f, 0.0f),
+                    INIT_POS_BACKGROUND    = glm::vec3(0.0f, 2.0f, 0.0f),
                     INIT_POS_BOAT    = glm::vec3(-3.0f, 0.0f, 0.0f),
                     INIT_POS_KAKAMORA    = glm::vec3(-2.0f, 0.0f, 0.0f),
                     INIT_POS_MOANA    = glm::vec3(-2.2f, -0.5f, 0.0f),
                     INIT_POS_MAUI    = glm::vec3(-4.0f, -0.5f, 0.0f);
+            // set z value a little bit back r or set everyone else to the front
 
 constexpr float ROT_INCREMENT = 1.0f;
 
@@ -77,6 +81,7 @@ ShaderProgram g_shader_program = ShaderProgram();
 
 glm::mat4 g_view_matrix,
           g_boat_matrix,
+          g_background_matrix,
           g_kakamora_matrix,
           g_moana_matrix,
           g_maui_matrix,
@@ -85,11 +90,13 @@ glm::mat4 g_view_matrix,
 float g_previous_ticks = 0.0f;
 
 glm::vec3 g_rotation_boat    = glm::vec3(0.0f, 0.0f, 0.0f),
+          g_rotation_background    = glm::vec3(0.0f, 0.0f, 0.0f),
           g_rotation_kakamora    = glm::vec3(0.0f, 0.0f, 0.0f),
           g_rotation_moana    = glm::vec3(0.0f, 0.0f, 0.0f),
           g_rotation_maui    = glm::vec3(0.0f, 0.0f, 0.0f);
 
 GLuint g_boat_texture_id,
+       g_background_texture_id,
        g_kakamora_texture_id,
        g_moana_texture_id,
        g_maui_texture_id;
@@ -129,7 +136,7 @@ void initialise()
     // Initialise video and joystick subsystems
     SDL_Init(SDL_INIT_VIDEO);
 
-    g_display_window = SDL_CreateWindow("Hello, Textures!",
+    g_display_window = SDL_CreateWindow("Moana, Maui, & the Kakamoras!",
                                       SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                       WINDOW_WIDTH, WINDOW_HEIGHT,
                                       SDL_WINDOW_OPENGL);
@@ -153,6 +160,7 @@ void initialise()
     g_shader_program.load(V_SHADER_PATH, F_SHADER_PATH);
 
     g_boat_matrix       = glm::mat4(1.0f);
+    g_background_matrix       = glm::mat4(1.0f);
     g_kakamora_matrix       = glm::mat4(1.0f);
     g_moana_matrix       = glm::mat4(1.0f);
     g_maui_matrix       = glm::mat4(1.0f);
@@ -167,6 +175,7 @@ void initialise()
     glClearColor(BG_RED, BG_BLUE, BG_GREEN, BG_OPACITY);
 
     g_boat_texture_id   = load_texture(BOAT_SPRITE_FILEPATH);
+    g_background_texture_id   = load_texture(BACKGROUND_SPRITE_FILEPATH);
     g_kakamora_texture_id   = load_texture(KAKAMORA_SPRITE_FILEPATH);
     g_moana_texture_id   = load_texture(MOANA_SPRITE_FILEPATH);
     g_maui_texture_id   = load_texture(MAUI_SPRITE_FILEPATH);
@@ -195,19 +204,21 @@ void update()
     float ticks = (float) SDL_GetTicks() / MILLISECONDS_IN_SECOND;
     float delta_time = ticks - g_previous_ticks;
     g_previous_ticks = ticks;
-    g_triangle_x += 0.2f * delta_time;
+    g_triangle_x += 0.5f * delta_time;
     
     /* Update the angle to make the kakamora move in a circle */
-        angle += ROT_INCREMENT * delta_time;
+    angle += ROT_INCREMENT * delta_time;
 
     /* Game logic */
     g_rotation_boat.y += 0.0 * delta_time;
+    g_rotation_background.y += 0.0 * delta_time;
     g_rotation_kakamora.y += ROT_INCREMENT * delta_time;
     g_rotation_moana.y += ROT_INCREMENT * delta_time;
     g_rotation_maui.y += -1 * ROT_INCREMENT * delta_time;
 
     /* Model matrix reset */
     g_boat_matrix    = glm::mat4(1.0f);
+    g_background_matrix    = glm::mat4(1.0f);
     g_kakamora_matrix    = glm::mat4(1.0f);
     g_moana_matrix    = glm::mat4(1.0f);
     g_maui_matrix    = glm::mat4(1.0f);
@@ -237,6 +248,10 @@ void update()
                                  g_rotation_moana.y,
                                  glm::vec3(0.0f, 1.0f, 0.0f));
     g_moana_matrix = glm::scale(g_moana_matrix, MOANA_SCALE);
+    
+    //BACKGROUND
+    g_background_matrix = glm::translate(g_background_matrix, INIT_POS_BACKGROUND);
+    g_background_matrix = glm::scale(g_background_matrix, BACKGROUND_SCALE);
     
     // MAUI
     //g_maui_matrix = glm::translate(g_maui_matrix, INIT_POS_MAUI);
@@ -283,6 +298,7 @@ void render()
     glEnableVertexAttribArray(g_shader_program.get_tex_coordinate_attribute());
 
     // Bind texture
+    draw_object(g_background_matrix, g_background_texture_id);
     draw_object(g_boat_matrix, g_boat_texture_id);
     draw_object(g_kakamora_matrix, g_kakamora_texture_id);
     draw_object(g_moana_matrix, g_moana_texture_id);

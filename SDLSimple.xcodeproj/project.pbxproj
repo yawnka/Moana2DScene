@@ -8,23 +8,47 @@
 
 /* Begin PBXBuildFile section */
 		ADA96CC42C8B99A1009254DB /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADA96CC32C8B99A1009254DB /* main.cpp */; };
+		ADA96CCF2C8B99C2009254DB /* ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ADA96CCE2C8B99C2009254DB /* ShaderProgram.cpp */; };
+		ADA96CD22C8B9A59009254DB /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA96CD12C8B9A59009254DB /* OpenGL.framework */; };
+		ADA96CD42C8B9A5E009254DB /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA96CD32C8B9A5E009254DB /* Cocoa.framework */; };
+		ADA96CD82C8B9A79009254DB /* SDL2_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA96CD52C8B9A78009254DB /* SDL2_image.framework */; };
+		ADA96CD92C8B9A79009254DB /* SDL2_mixer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA96CD62C8B9A78009254DB /* SDL2_mixer.framework */; };
+		ADA96CDA2C8B9A79009254DB /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ADA96CD72C8B9A79009254DB /* SDL2.framework */; };
+		ADA96CDB2C8B9A9A009254DB /* shaders in CopyFiles */ = {isa = PBXBuildFile; fileRef = ADA96CCD2C8B99C2009254DB /* shaders */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		ADA96CBE2C8B99A1009254DB /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
+			dstPath = "";
+			dstSubfolderSpec = 6;
 			files = (
+				ADA96CDB2C8B9A9A009254DB /* shaders in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AD64B3A72CA13499008A0357 /* background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		AD64B3AC2CA4D3F1008A0357 /* moana.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = moana.png; path = ../../../../Downloads/moana.png; sourceTree = "<group>"; };
+		AD64B3AD2CA4D3F1008A0357 /* maui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = maui.png; path = ../../../../Downloads/maui.png; sourceTree = "<group>"; };
+		AD64B3AF2CA4D500008A0357 /* boat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boat.png; sourceTree = "<group>"; };
+		AD64B3B02CA51687008A0357 /* coco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coco.png; sourceTree = "<group>"; };
+		AD9250EB2C9DFC3E008E7F3B /* texture.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = texture.hpp; sourceTree = "<group>"; };
 		ADA96CC02C8B99A1009254DB /* SDLSimple */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SDLSimple; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA96CC32C8B99A1009254DB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		ADA96CCA2C8B99C1009254DB /* glm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = glm; sourceTree = "<group>"; };
+		ADA96CCB2C8B99C1009254DB /* stb_image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stb_image.h; sourceTree = "<group>"; };
+		ADA96CCC2C8B99C2009254DB /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
+		ADA96CCD2C8B99C2009254DB /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; path = shaders; sourceTree = "<group>"; };
+		ADA96CCE2C8B99C2009254DB /* ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderProgram.cpp; sourceTree = "<group>"; };
+		ADA96CD12C8B9A59009254DB /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		ADA96CD32C8B9A5E009254DB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		ADA96CD52C8B9A78009254DB /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../../../../Library/Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
+		ADA96CD62C8B9A78009254DB /* SDL2_mixer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_mixer.framework; path = ../../../../../Library/Frameworks/SDL2_mixer.framework; sourceTree = "<group>"; };
+		ADA96CD72C8B9A79009254DB /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +56,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADA96CD82C8B9A79009254DB /* SDL2_image.framework in Frameworks */,
+				ADA96CD92C8B9A79009254DB /* SDL2_mixer.framework in Frameworks */,
+				ADA96CDA2C8B9A79009254DB /* SDL2.framework in Frameworks */,
+				ADA96CD42C8B9A5E009254DB /* Cocoa.framework in Frameworks */,
+				ADA96CD22C8B9A59009254DB /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +72,7 @@
 			children = (
 				ADA96CC22C8B99A1009254DB /* SDLSimple */,
 				ADA96CC12C8B99A1009254DB /* Products */,
+				ADA96CD02C8B9A59009254DB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -57,9 +87,32 @@
 		ADA96CC22C8B99A1009254DB /* SDLSimple */ = {
 			isa = PBXGroup;
 			children = (
+				AD64B3B02CA51687008A0357 /* coco.png */,
+				AD64B3AF2CA4D500008A0357 /* boat.png */,
+				AD64B3AD2CA4D3F1008A0357 /* maui.png */,
+				AD64B3AC2CA4D3F1008A0357 /* moana.png */,
+				AD64B3A72CA13499008A0357 /* background.png */,
+				ADA96CCA2C8B99C1009254DB /* glm */,
+				ADA96CCE2C8B99C2009254DB /* ShaderProgram.cpp */,
+				ADA96CCC2C8B99C2009254DB /* ShaderProgram.h */,
+				ADA96CCD2C8B99C2009254DB /* shaders */,
+				ADA96CCB2C8B99C1009254DB /* stb_image.h */,
 				ADA96CC32C8B99A1009254DB /* main.cpp */,
+				AD9250EB2C9DFC3E008E7F3B /* texture.hpp */,
 			);
 			path = SDLSimple;
+			sourceTree = "<group>";
+		};
+		ADA96CD02C8B9A59009254DB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ADA96CD52C8B9A78009254DB /* SDL2_image.framework */,
+				ADA96CD62C8B9A78009254DB /* SDL2_mixer.framework */,
+				ADA96CD72C8B9A79009254DB /* SDL2.framework */,
+				ADA96CD32C8B9A5E009254DB /* Cocoa.framework */,
+				ADA96CD12C8B9A59009254DB /* OpenGL.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,6 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA96CC42C8B99A1009254DB /* main.cpp in Sources */,
+				ADA96CCF2C8B99C2009254DB /* ShaderProgram.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +293,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					/Library/Frameworks/SDL2.framework/Versions/A/Headers,
+					/Library/Frameworks/SDL2_image.framework/Versions/A/Headers,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -247,6 +309,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
+				HEADER_SEARCH_PATHS = (
+					/Library/Frameworks/SDL2.framework/Versions/A/Headers,
+					/Library/Frameworks/SDL2_image.framework/Versions/A/Headers,
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

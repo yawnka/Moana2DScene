@@ -26,8 +26,8 @@
 
 enum AppStatus { RUNNING, TERMINATED };
 
-constexpr int WINDOW_WIDTH  = 640 * 2,
-              WINDOW_HEIGHT = 480 * 2;
+constexpr int WINDOW_WIDTH  = 600 * 2,
+              WINDOW_HEIGHT = 360 * 2;
 
 constexpr float BG_RED     = 0.9765625f,
                 BG_GREEN   = 0.97265625f,
@@ -50,6 +50,7 @@ constexpr GLint NUMBER_OF_TEXTURES = 1, // to be generated, that is
 
 constexpr char MOANA_SPRITE_FILEPATH[]    = "moana.png",
                KAKAMORA_SPRITE_FILEPATH[]    = "coco.png",
+               HEYHEY_SPRITE_FILEPATH[]    = "heyhey.png",
                MAUI_SPRITE_FILEPATH[]    = "maui.png",
                BACKGROUND_SPRITE_FILEPATH[]    = "background.png",
                BOAT_SPRITE_FILEPATH[]    = "boat.png";
@@ -58,12 +59,14 @@ constexpr char MOANA_SPRITE_FILEPATH[]    = "moana.png",
 constexpr glm::vec3 INIT_SCALE       = glm::vec3(2.0f, 1.98f, 0.0f),
                     BOAT_SCALE       = glm::vec3(3.0f, 2.98f, 0.0f),
                     MOANA_SCALE       = glm::vec3(1.5f, 0.98f, 0.0f),
+                    HEYHEY_SCALE       = glm::vec3(0.5f, -0.5f, 1.0f),
                     BACKGROUND_SCALE       = glm::vec3(10.5f, 8.98f, 0.0f),
-                    INIT_POS_BACKGROUND    = glm::vec3(0.0f, 2.0f, 0.0f),
-                    INIT_POS_BOAT    = glm::vec3(-3.0f, 0.0f, 0.0f),
+                    INIT_POS_BACKGROUND    = glm::vec3(0.0f, .5f, 0.0f),
+                    INIT_POS_BOAT    = glm::vec3(-3.0f, -1.1f, 0.0f),
                     INIT_POS_KAKAMORA    = glm::vec3(-2.0f, 0.0f, 0.0f),
-                    INIT_POS_MOANA    = glm::vec3(-2.2f, -0.5f, 0.0f),
-                    INIT_POS_MAUI    = glm::vec3(-4.0f, -0.5f, 0.0f);
+                    INIT_POS_MOANA    = glm::vec3(-2.2f, -1.5f, 0.0f),
+                    INIT_POS_HEYHEY    = glm::vec3(-5.0f, -3.0f, 0.0f),
+                    INIT_POS_MAUI    = glm::vec3(-4.0f, -1.5f, 0.0f);
             // set z value a little bit back r or set everyone else to the front
 
 constexpr float ROT_INCREMENT = 1.0f;
@@ -75,6 +78,13 @@ float g_triangle_x = 0.0f;
 float angle = 0.0f;  // the angle of rotation
 float radius = 2.5f;
 
+// global values for sinsuodial curve for heyhey
+float amplitude = 0.5f;  // How high/low the sine wave moves the object
+float frequency = 2.0f;
+float scale_amplitude = 0.25f;  // for hey hey pulsing
+float scale_frequency = 2.0f;
+float base_scale = -0.5f;
+
 SDL_Window* g_display_window;
 AppStatus g_app_status = RUNNING;
 ShaderProgram g_shader_program = ShaderProgram();
@@ -84,6 +94,7 @@ glm::mat4 g_view_matrix,
           g_background_matrix,
           g_kakamora_matrix,
           g_moana_matrix,
+          g_heyhey_matrix,
           g_maui_matrix,
           g_projection_matrix;
 
@@ -93,12 +104,14 @@ glm::vec3 g_rotation_boat    = glm::vec3(0.0f, 0.0f, 0.0f),
           g_rotation_background    = glm::vec3(0.0f, 0.0f, 0.0f),
           g_rotation_kakamora    = glm::vec3(0.0f, 0.0f, 0.0f),
           g_rotation_moana    = glm::vec3(0.0f, 0.0f, 0.0f),
+          g_rotation_heyhey    = glm::vec3(0.0f, 0.0f, 0.0f),
           g_rotation_maui    = glm::vec3(0.0f, 0.0f, 0.0f);
 
 GLuint g_boat_texture_id,
        g_background_texture_id,
        g_kakamora_texture_id,
        g_moana_texture_id,
+       g_heyhey_texture_id,
        g_maui_texture_id;
 
 
@@ -136,7 +149,7 @@ void initialise()
     // Initialise video and joystick subsystems
     SDL_Init(SDL_INIT_VIDEO);
 
-    g_display_window = SDL_CreateWindow("Moana, Maui, & the Kakamoras!",
+    g_display_window = SDL_CreateWindow("Moana, Maui, HeiHei & the Kakamoras!",
                                       SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
                                       WINDOW_WIDTH, WINDOW_HEIGHT,
                                       SDL_WINDOW_OPENGL);
@@ -163,6 +176,7 @@ void initialise()
     g_background_matrix       = glm::mat4(1.0f);
     g_kakamora_matrix       = glm::mat4(1.0f);
     g_moana_matrix       = glm::mat4(1.0f);
+    g_heyhey_matrix       = glm::mat4(1.0f);
     g_maui_matrix       = glm::mat4(1.0f);
     g_view_matrix       = glm::mat4(1.0f);
     g_projection_matrix = glm::ortho(-5.0f, 5.0f, -3.75f, 3.75f, -1.0f, 1.0f);
@@ -178,6 +192,7 @@ void initialise()
     g_background_texture_id   = load_texture(BACKGROUND_SPRITE_FILEPATH);
     g_kakamora_texture_id   = load_texture(KAKAMORA_SPRITE_FILEPATH);
     g_moana_texture_id   = load_texture(MOANA_SPRITE_FILEPATH);
+    g_heyhey_texture_id   = load_texture(HEYHEY_SPRITE_FILEPATH);
     g_maui_texture_id   = load_texture(MAUI_SPRITE_FILEPATH);
 
     glEnable(GL_BLEND);
@@ -214,6 +229,7 @@ void update()
     g_rotation_background.y += 0.0 * delta_time;
     g_rotation_kakamora.y += ROT_INCREMENT * delta_time;
     g_rotation_moana.y += ROT_INCREMENT * delta_time;
+    g_rotation_heyhey.y += ROT_INCREMENT * delta_time;
     g_rotation_maui.y += -1 * ROT_INCREMENT * delta_time;
 
     /* Model matrix reset */
@@ -221,6 +237,7 @@ void update()
     g_background_matrix    = glm::mat4(1.0f);
     g_kakamora_matrix    = glm::mat4(1.0f);
     g_moana_matrix    = glm::mat4(1.0f);
+    g_heyhey_matrix    = glm::mat4(1.0f);
     g_maui_matrix    = glm::mat4(1.0f);
 
     /* Transformations */
@@ -248,6 +265,21 @@ void update()
                                  g_rotation_moana.y,
                                  glm::vec3(0.0f, 1.0f, 0.0f));
     g_moana_matrix = glm::scale(g_moana_matrix, MOANA_SCALE);
+    
+    // HEYHEY
+    float heyhey_y = INIT_POS_HEYHEY.y + amplitude * sin(frequency * g_triangle_x);  // Sinusoidal motion for Y-axis
+    float heyhey_x = INIT_POS_HEYHEY.x + g_triangle_x;
+    float heyhey_scale_factor = base_scale + scale_amplitude * sin(scale_frequency * SDL_GetTicks() / 1000.0f);  // Time-based scaling
+    g_heyhey_matrix = glm::translate(g_heyhey_matrix, glm::vec3(heyhey_x, heyhey_y, 0.0f));
+    //g_heyhey_matrix = glm::translate(g_heyhey_matrix, INIT_POS_HEYHEY + glm::vec3(g_triangle_x, 0.0f, 0.0f));
+    //g_heyhey_matrix = glm::rotate(g_heyhey_matrix,
+                                 //g_rotation_heyhey.y,
+                                 //glm::vec3(0.0f, 1.0f, 0.0f));
+    //g_heyhey_matrix = glm::scale(g_heyhey_matrix, HEYHEY_SCALE);
+    g_heyhey_matrix = glm::scale(g_heyhey_matrix, glm::vec3(heyhey_scale_factor, heyhey_scale_factor, 1.0f));
+    
+    
+
     
     //BACKGROUND
     g_background_matrix = glm::translate(g_background_matrix, INIT_POS_BACKGROUND);
@@ -302,6 +334,7 @@ void render()
     draw_object(g_boat_matrix, g_boat_texture_id);
     draw_object(g_kakamora_matrix, g_kakamora_texture_id);
     draw_object(g_moana_matrix, g_moana_texture_id);
+    draw_object(g_heyhey_matrix, g_heyhey_texture_id);
     draw_object(g_maui_matrix, g_maui_texture_id);
 
     // We disable two attribute arrays now

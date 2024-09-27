@@ -36,6 +36,7 @@
 		AD64B3AD2CA4D3F1008A0357 /* maui.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = maui.png; path = ../../../../Downloads/maui.png; sourceTree = "<group>"; };
 		AD64B3AF2CA4D500008A0357 /* boat.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boat.png; sourceTree = "<group>"; };
 		AD64B3B02CA51687008A0357 /* coco.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = coco.png; sourceTree = "<group>"; };
+		AD64B3B12CA728DB008A0357 /* heyhey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = heyhey.png; sourceTree = "<group>"; };
 		AD9250EB2C9DFC3E008E7F3B /* texture.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = texture.hpp; sourceTree = "<group>"; };
 		ADA96CC02C8B99A1009254DB /* SDLSimple */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SDLSimple; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA96CC32C8B99A1009254DB /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
@@ -87,6 +88,7 @@
 		ADA96CC22C8B99A1009254DB /* SDLSimple */ = {
 			isa = PBXGroup;
 			children = (
+				AD64B3B12CA728DB008A0357 /* heyhey.png */,
 				AD64B3B02CA51687008A0357 /* coco.png */,
 				AD64B3AF2CA4D500008A0357 /* boat.png */,
 				AD64B3AD2CA4D3F1008A0357 /* maui.png */,

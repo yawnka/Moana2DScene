@@ -67,23 +67,22 @@ constexpr glm::vec3 INIT_SCALE       = glm::vec3(2.0f, 1.98f, 0.0f),
                     INIT_POS_MOANA    = glm::vec3(-2.2f, -1.5f, 0.0f),
                     INIT_POS_HEYHEY    = glm::vec3(-5.0f, -3.0f, 0.0f),
                     INIT_POS_MAUI    = glm::vec3(-4.0f, -1.5f, 0.0f);
-            // set z value a little bit back r or set everyone else to the front
 
 constexpr float ROT_INCREMENT = 1.0f;
 
-// value from notes on Delta Time to get objects to move to the right slowly
+// value from notes on Delta Time to get objects to move to the right slowly from github notes
 float g_triangle_x = 0.0f;
 
 // kakamora translating around boat (origin)
 float angle = 0.0f;  // the angle of rotation
 float radius = 2.5f;
 
-// global values for sinsuodial curve for heyhey
+// global values for sinsuodial curve for heihei (I spelled it heyhey for the variable names by accident)
 float amplitude = 0.5f;  // How high/low the sine wave moves the object
 float frequency = 2.0f;
-float scale_amplitude = 0.25f;  // for hey hey pulsing
+float scale_amplitude = 0.25f;  // for hei heipulsing
 float scale_frequency = 2.0f;
-float base_scale = -0.5f;
+float base_scale = -0.5f; //upside down hei hei
 
 SDL_Window* g_display_window;
 AppStatus g_app_status = RUNNING;
@@ -251,15 +250,13 @@ void update()
     g_boat_matrix = glm::scale(g_boat_matrix, BOAT_SCALE);
     
     // KAKAMORA
-    //calculating position of kakamora (do I need to add delta time here)
+    //calculating position of kakamora
     float kakamora_x = (INIT_POS_BOAT.x + g_triangle_x) + radius * cos(angle);
     float kakamora_y = INIT_POS_BOAT.y + radius * sin(angle);
     g_kakamora_matrix = glm::translate(g_kakamora_matrix, glm::vec3(kakamora_x, kakamora_y, 0.0f));
     g_kakamora_matrix = glm::scale(g_kakamora_matrix, INIT_SCALE);
-    //g_kakamora_matrix = glm::rotate(g_kakamora_matrix, g_rotation_kakamora.y, glm::vec3(0.0f, 0.0f, 1.0f));
 
     // MOANA
-    //g_moana_matrix = glm::translate(g_moana_matrix, INIT_POS_MOANA);
     g_moana_matrix = glm::translate(g_moana_matrix, INIT_POS_MOANA + glm::vec3(g_triangle_x, 0.0f, 0.0f));
     g_moana_matrix = glm::rotate(g_moana_matrix,
                                  g_rotation_moana.y,
@@ -271,22 +268,13 @@ void update()
     float heyhey_x = INIT_POS_HEYHEY.x + g_triangle_x;
     float heyhey_scale_factor = base_scale + scale_amplitude * sin(scale_frequency * SDL_GetTicks() / 1000.0f);  // Time-based scaling
     g_heyhey_matrix = glm::translate(g_heyhey_matrix, glm::vec3(heyhey_x, heyhey_y, 0.0f));
-    //g_heyhey_matrix = glm::translate(g_heyhey_matrix, INIT_POS_HEYHEY + glm::vec3(g_triangle_x, 0.0f, 0.0f));
-    //g_heyhey_matrix = glm::rotate(g_heyhey_matrix,
-                                 //g_rotation_heyhey.y,
-                                 //glm::vec3(0.0f, 1.0f, 0.0f));
-    //g_heyhey_matrix = glm::scale(g_heyhey_matrix, HEYHEY_SCALE);
     g_heyhey_matrix = glm::scale(g_heyhey_matrix, glm::vec3(heyhey_scale_factor, heyhey_scale_factor, 1.0f));
-    
-    
-
     
     //BACKGROUND
     g_background_matrix = glm::translate(g_background_matrix, INIT_POS_BACKGROUND);
     g_background_matrix = glm::scale(g_background_matrix, BACKGROUND_SCALE);
     
     // MAUI
-    //g_maui_matrix = glm::translate(g_maui_matrix, INIT_POS_MAUI);
     g_maui_matrix = glm::translate(g_maui_matrix, INIT_POS_MAUI + glm::vec3(g_triangle_x, 0.0f, 0.0f));
     g_maui_matrix = glm::rotate(g_maui_matrix,
                                  g_rotation_maui.y,
